@@ -1,0 +1,11 @@
+{
+  // 📁 PYTHONPATH
+  "terminal.integrated.env.osx": { "PYTHONPATH": "${workspaceFolder}" },
+  "terminal.integrated.env.linux": { "PYTHONPATH": "${workspaceFolder}" },
+  "terminal.integrated.env.windows": { "PYTHONPATH": "${workspaceFolder}" }
+
+  // 📁 PYTHONPATH
+  // "terminal.integrated.env.osx":     { "PYTHONPATH": "${workspaceFolder}/project", },
+  // "terminal.integrated.env.linux":   { "PYTHONPATH": "${workspaceFolder}/project", },
+  // "terminal.integrated.env.windows": { "PYTHONPATH": "${workspaceFolder}/project", },
+}

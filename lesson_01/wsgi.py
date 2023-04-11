@@ -1,12 +1,13 @@
 from pprint import pprint
 import sys
 import subprocess
+from lesson_01.templator import render
 
 
 def index(request):
     status = '200 OK'
-    body = 'index'.encode('utf-8')
-    return status, body
+    body = 'index'
+    return status, render('lesson_01/stub.html', request)
 
 
 class Info:
@@ -19,11 +20,11 @@ class Info:
 
 def not_found(request):
     status = '404 NOT FOUND'
-    body = 'NOT FOUND 404'.encode('utf-8')
+    body = 'NOT FOUND 404'
     return status, body
 
 
-routes = {
+routes: dict[str, callable] = {
     '/': index,
     '/info': Info(),
 }
@@ -45,7 +46,9 @@ class Application:
     def __init__(self, routes, fronts):
         self.routes = routes
         self.fronts = fronts
-        self.headers = [('Content-Type', 'text/plain')]
+        self.headers = [
+            ('Content-Type', 'text/plain'),
+        ]
 
     def __call__(self, environ, start_response):
         path = environ.get('PATH_INFO')
@@ -60,7 +63,7 @@ class Application:
 
         status, body = view(request)
         start_response(status, self.headers)
-        return [body]
+        return [body.encode('utf-8')]
 
 
 application = Application(routes, fronts)
