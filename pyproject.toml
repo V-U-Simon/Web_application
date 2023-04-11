@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "web-application"
+version = "0.1.0"
+description = ""
+authors = ["V-U-Simon <V-U-Simon@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "web_application"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
