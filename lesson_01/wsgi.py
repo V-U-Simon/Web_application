@@ -1,13 +1,23 @@
+from pprint import pprint
 import sys
 import subprocess
 
 
 def application(environ, start_response):
+    pprint(environ)
+
     status = '200 OK'
     headers = [
         ('Content-Type', 'text/plain'),
     ]
-    body = 'hello world 1222'.encode('utf-8')
+
+    if environ.get('PATH_INFO') == '/':
+        body = 'index'.encode('utf-8')
+    elif environ.get('PATH_INFO') == '/info':
+        body = 'info'.encode('utf-8')
+    else:
+        body = 'NOT FOUND 404'.encode('utf-8')
+        status = '404 NOT FOUND'
 
     start_response(status, headers)
     return [body]
