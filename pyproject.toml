@@ -4,10 +4,11 @@ version = "0.1.0"
 description = ""
 authors = ["V-U-Simon <V-U-Simon@yandex.ru>"]
 readme = "README.md"
-packages = [{include = "web_application"}]
+packages = [{ include = "web_application" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+uwsgi = "^2.0.21"
 
 
 [build-system]
