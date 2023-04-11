@@ -38,13 +38,13 @@ class Application:
     def __call__(self, environ, start_response):
         path = environ.get('PATH_INFO')
         if path in self.routes:
-            status, body = self.routes[path]()
-            start_response(status, self.headers)
-            return [body]
+            self.view = self.routes[path]()
         else:
-            status, body = not_found()
-            start_response(status, self.headers)
-            return [body]
+            self.view = not_found
+
+        status, body = self.routes[path]()
+        start_response(status, self.headers)
+        return [body]
 
 
 application = Application(routes)
