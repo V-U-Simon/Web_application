@@ -9,10 +9,12 @@ def index():
     return status, body
 
 
-def info():
-    status = '200 OK'
-    body = 'info'.encode('utf-8')
-    return status, body
+class Info:
+
+    def __call__(self):
+        status = '200 OK'
+        body = 'info'.encode('utf-8')
+        return status, body
 
 
 def not_found():
@@ -23,7 +25,7 @@ def not_found():
 
 routes = {
     '/': index,
-    '/info': info,
+    '/info': Info(),
 }
 
 
