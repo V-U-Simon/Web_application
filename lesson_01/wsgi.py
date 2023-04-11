@@ -3,7 +3,7 @@ import sys
 import subprocess
 
 
-def index():
+def index(request):
     status = '200 OK'
     body = 'index'.encode('utf-8')
     return status, body
@@ -11,13 +11,13 @@ def index():
 
 class Info:
 
-    def __call__(self):
+    def __call__(self, request):
         status = '200 OK'
         body = 'info'.encode('utf-8')
         return status, body
 
 
-def not_found():
+def not_found(request):
     status = '404 NOT FOUND'
     body = 'NOT FOUND 404'.encode('utf-8')
     return status, body
@@ -29,25 +29,41 @@ routes = {
 }
 
 
+def fill_request(request: dict):
+    request['key'] = 'value'
+
+
+def fill_request_2(request: dict):
+    request['other_key'] = 'other_value'
+
+
+fronts = [fill_request, fill_request_2]
+
+
 class Application:
 
-    def __init__(self, routes):
+    def __init__(self, routes, fronts):
         self.routes = routes
+        self.fronts = fronts
         self.headers = [('Content-Type', 'text/plain')]
 
     def __call__(self, environ, start_response):
         path = environ.get('PATH_INFO')
         if path in self.routes:
-            self.view = self.routes[path]()
+            view = self.routes[path]
         else:
-            self.view = not_found
+            view = not_found
 
-        status, body = self.routes[path]()
+        request = {'environ': environ}
+        for front in self.fronts:
+            front(request)
+
+        status, body = view(request)
         start_response(status, self.headers)
         return [body]
 
 
-application = Application(routes)
+application = Application(routes, fronts)
 
 if __name__ == '__main__':
     process_res = subprocess.run(
