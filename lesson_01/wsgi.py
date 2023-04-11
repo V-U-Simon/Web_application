@@ -13,14 +13,17 @@ def application(environ, start_response):
 
     if environ.get('PATH_INFO') == '/':
         body = 'index'.encode('utf-8')
+        start_response(status, headers)
+        return [body]
     elif environ.get('PATH_INFO') == '/info':
         body = 'info'.encode('utf-8')
+        start_response(status, headers)
+        return [body]
     else:
         body = 'NOT FOUND 404'.encode('utf-8')
         status = '404 NOT FOUND'
-
-    start_response(status, headers)
-    return [body]
+        start_response(status, headers)
+        return [body]
 
 
 if __name__ == '__main__':
