@@ -15,6 +15,7 @@ class Application:
 
     def __call__(self, environ, start_response):
         path = environ.get('PATH_INFO')
+        path = path if path.endswith('/') else path + '/'  # check slash in path
         if path in self.routes:
             view = self.routes[path]
         else:
