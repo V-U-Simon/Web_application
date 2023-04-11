@@ -3,31 +3,46 @@ import sys
 import subprocess
 
 
-def application(environ, start_response):
-    pprint(environ)
-
+def index():
     status = '200 OK'
-    headers = [
-        ('Content-Type', 'text/plain'),
-    ]
+    body = 'index'.encode('utf-8')
+    return status, body
 
-    if environ.get('PATH_INFO') == '/':
-        body = 'index'.encode('utf-8')
-        start_response(status, headers)
-        return [body]
-    elif environ.get('PATH_INFO') == '/info':
-        body = 'info'.encode('utf-8')
+
+def info():
+    status = '200 OK'
+    body = 'info'.encode('utf-8')
+    return status, body
+
+
+def not_found():
+    status = '404 NOT FOUND'
+    body = 'NOT FOUND 404'.encode('utf-8')
+    return status, body
+
+
+routes = {
+    '/': index,
+    '/info': info,
+}
+
+
+def application(environ, start_response):
+    global routes
+    headers = [('Content-Type', 'text/plain')]
+
+    path = environ.get('PATH_INFO')
+    if path in routes:
+        status, body = routes[path]()
         start_response(status, headers)
         return [body]
     else:
-        body = 'NOT FOUND 404'.encode('utf-8')
-        status = '404 NOT FOUND'
+        status, body = not_found()
         start_response(status, headers)
         return [body]
 
 
 if __name__ == '__main__':
-
     process_res = subprocess.run(
         [f'uwsgi', '--socket', ':8080', '--protocol=http', '--wsgi-file', f'{__file__}', '--callable', 'application'],
         stdout=sys.stdout,
