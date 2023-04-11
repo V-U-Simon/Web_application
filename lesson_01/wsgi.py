@@ -27,20 +27,25 @@ routes = {
 }
 
 
-def application(environ, start_response):
-    global routes
-    headers = [('Content-Type', 'text/plain')]
+class Application:
 
-    path = environ.get('PATH_INFO')
-    if path in routes:
-        status, body = routes[path]()
-        start_response(status, headers)
-        return [body]
-    else:
-        status, body = not_found()
-        start_response(status, headers)
-        return [body]
+    def __init__(self, routes):
+        self.routes = routes
+        self.headers = [('Content-Type', 'text/plain')]
 
+    def __call__(self, environ, start_response):
+        path = environ.get('PATH_INFO')
+        if path in self.routes:
+            status, body = self.routes[path]()
+            start_response(status, self.headers)
+            return [body]
+        else:
+            status, body = not_found()
+            start_response(status, self.headers)
+            return [body]
+
+
+application = Application(routes)
 
 if __name__ == '__main__':
     process_res = subprocess.run(
