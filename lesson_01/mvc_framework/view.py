@@ -3,13 +3,13 @@ from .templator import render
 
 def index(request):
     status = '200 OK'
-    body = 'index'
-    return status, render('templates/stub.html', request)
+    context = {'key': 'value'}
+    return status, render('index.html', context=context)
 
 
-class Info:
+class Page:
 
     def __call__(self, request):
         status = '200 OK'
-        body = 'info'
-        return status, body
+        context = {'key': 'value'}
+        return status, render('page.html', context=context)

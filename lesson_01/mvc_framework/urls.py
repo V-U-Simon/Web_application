@@ -1,6 +1,6 @@
-from .view import index, Info
+from .view import index, Page
 
 routes: dict[str, callable] = {
     '/': index,
-    '/info/': Info(),
+    '/page/': Page(),
 }
