@@ -7,7 +7,6 @@ from .request import Request
 from .response import Response
 from .routers import routes, TypeRoute
 from .views import TypeView, not_found
-from .middleware import *  # todo: init function in middleware, move to some __init__ file.
 
 
 class Application:
@@ -17,12 +16,6 @@ class Application:
     def __call__(self, environ, start_response):
         # метод запроса опредяется в объекте Request с помощью фукнции-заплнителя объекта (fill_request)
         request = Request(environ)
-
-        # todo: refactor somehow
-        if request.method == 'GET':
-            fill_request_for_get(request)
-        elif request.method == 'POST':
-            fill_request_for_post(request)
 
         view: TypeView = self.routes.get(request.path, not_found)
         status, body = view(request)
