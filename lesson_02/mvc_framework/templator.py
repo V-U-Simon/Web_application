@@ -1,7 +1,11 @@
 from jinja2 import Template
 from pathlib import Path
+from .config import ENCODING
 
-TEMPLATE_FOLDER = 'templates'
+from loguru import logger
+
+# относительный путь к папке с шаблонами
+TEMPLATE_FOLDER = Path(__file__).parent.parent / 'templates'
 
 
 def render_from_line(template_line: str, context: dict) -> str:
@@ -13,12 +17,12 @@ def render_from_line(template_line: str, context: dict) -> str:
 def render(template_file: str, context: dict) -> str:
     """ Сформировать шаблон из файла """
 
-    template_file = Path.cwd() / TEMPLATE_FOLDER / template_file
-    print(template_file)
-    print('/Users/macbook/Code/Education/Web_application/lesson_02/templates')
-    print(Path.exists(template_file))
+    template_file = TEMPLATE_FOLDER / template_file
+    if not template_file.exists():
+        logger.error(f'Template file (or templates folder) is not exists: {template_file}')
+        raise FileExistsError(f'{template_file}')
 
-    with open(template_file, 'r') as f:
+    with open(template_file, 'r', encoding=ENCODING) as f:
         template = Template(f.read())
         return template.render(**context)
 
