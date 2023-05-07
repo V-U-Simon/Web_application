@@ -4,11 +4,17 @@ version = "0.1.0"
 description = ""
 authors = ["V-U-Simon <V-U-Simon@yandex.ru>"]
 readme = "README.md"
-packages = [{include = "web_application"}]
+packages = [{ include = "web_application" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+uwsgi = "^2.0.21"
+loguru = "^0.7.0"
+jinja2 = "^3.1.2"
 
+
+[tool.poetry.group.dev.dependencies]
+yapf = "^0.32.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,0 +1,15 @@
+{
+  // 📁 PYTHONPATH
+  "terminal.integrated.env.osx": { "PYTHONPATH": "${workspaceFolder}" },
+  "terminal.integrated.env.linux": { "PYTHONPATH": "${workspaceFolder}" },
+  "terminal.integrated.env.windows": { "PYTHONPATH": "${workspaceFolder}" },
+
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "python.terminal.executeInFileDir": true,
+
+  "python.pythonPath": "${workspaceFolder}/.venv/bin/python"
+  // 📁 PYTHONPATH
+  // "terminal.integrated.env.osx":     { "PYTHONPATH": "${workspaceFolder}/project", },
+  // "terminal.integrated.env.linux":   { "PYTHONPATH": "${workspaceFolder}/project", },
+  // "terminal.integrated.env.windows": { "PYTHONPATH": "${workspaceFolder}/project", },
+}
