@@ -1,11 +1,10 @@
 from jinja2 import Template
 from pathlib import Path
-from .config import ENCODING
+from .config import ENCODING, TEMPLATE_FOLDER
 
 from loguru import logger
 
 # относительный путь к папке с шаблонами
-TEMPLATE_FOLDER = Path(__file__).parent.parent / 'templates'
 
 
 def render_from_line(template_line: str, context: dict) -> str:
