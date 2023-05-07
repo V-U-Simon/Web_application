@@ -1,5 +1,7 @@
 from typing import Callable
 
+from loguru import logger
+
 from .request import Request
 from .response import Response
 from .templator import render, render_from_line
@@ -35,8 +37,8 @@ def contact(request: Request):
         # form = NameForm(request.POST)
 
         # полученная форма
-        print('>>>', request.request.query_string)
-        print('>>>', request.request_body)
+        logger.info('>>>', request.method)
+        logger.info('>>>', request.query_string)
         return status, render_from_line('Thanks!')
 
     return status, render('contact.html', context=context)
