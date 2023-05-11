@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "lesson-03"
+version = "0.1.0"
+description = ""
+authors = ["V-U-Simon <V-U-Simon@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "lesson_03"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+jinja2 = "^3.1.2"
+loguru = "^0.7.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
