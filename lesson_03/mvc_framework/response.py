@@ -8,7 +8,7 @@ from .config import ENCODING
 class Response:
     status: str = None
     body: Iterable[bytes]
-    headers: list[tuple[str, str]] = field(default_factory=lambda: [('Content-Type', 'text/plain')])
+    headers: list[tuple[str, str]] = field(default_factory=lambda: [('Content-Type', 'text/html')])
 
     @property
     def body(self) -> Iterable[bytes]:
@@ -23,5 +23,5 @@ class Response:
 
 if __name__ == '__main__':
     # some test
-    responce = Response('404 not Found', 'some content')
+    responce = Response('404 not Found', '<h1>some content</h1>')
     print(responce.body)

@@ -22,5 +22,4 @@ class Application:
 
         response = Response(status=status, body=body)
         start_response(response.status, response.headers)
-
         return response.body

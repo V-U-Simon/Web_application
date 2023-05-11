@@ -1,35 +1,36 @@
-from jinja2 import Template
+import os
+from jinja2 import Template, select_autoescape, Environment
+from jinja2 import FileSystemLoader, ChoiceLoader
 from pathlib import Path
-from .config import ENCODING, TEMPLATE_FOLDER
 
-from loguru import logger
+from .config import TEMPLATE_FOLDER
 
-# относительный путь к папке с шаблонами
+loaders = (
+    FileSystemLoader(Path(__file__).parent / TEMPLATE_FOLDER),  # config_loader: .../mvc_framework/{TEMPLATE_FOLDER}
+    FileSystemLoader(Path(__file__).parent.parent / 'templates'),  # default_loader: .../mvc_framework/../templates
+)
 
+autoescaping = select_autoescape(
+    # enabled_extensions=('txt',),  # 🌝 включить  для файлов с расширениями: 'html',
+    disabled_extensions=('html',),  # 🌚 выключить для файлов с расширениями: 'txt', 
+    default_for_string=False,  # 📦 для str
+    default=False)
 
-def render_from_line(template_line: str, context: dict) -> str:
-    """ Сформировать шаблон из текста """
-    template = Template(template_line)
-    return template.render(**context)
+env = Environment(
+    loader=ChoiceLoader(loaders),
+    autoescape=autoescaping,
+    extensions=[],
+)
 
 
 def render(template_file: str, context: dict) -> str:
     """ Сформировать шаблон из файла """
-
-    template_file = TEMPLATE_FOLDER / template_file
-    if not template_file.exists():
-        logger.error(f'Template file (or templates folder) is not exists: {template_file}')
-        raise FileExistsError(f'{template_file}')
-
-    with open(template_file, 'r', encoding=ENCODING) as f:
-        template = Template(f.read())
-        return template.render(**context)
+    template: Template = env.get_template(template_file)
+    return template.render(**context)
 
 
 if __name__ == '__main__':
     # some test
-    res = render_from_line('Hello {{ name }}', context={'name': 'John Doe'})
-    print(res)
 
-    res = render('page.html', context={'name': 'John Doe'})
+    res = render('base.html', context={'name': 'John Doe'})
     print(res)
